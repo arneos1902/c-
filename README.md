@@ -1,2 +1,2 @@
 # c#
-here you can see all my work i did in c#
+here you can see a calcullator i made in c#
