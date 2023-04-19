@@ -1,0 +1,211 @@
+using System;
+using System.Net.NetworkInformation;
+
+namespace ConsoleCalculator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine(" W E L C O M E  T O  T H E  C O N S O L E  C A L C U L A T O R");
+            Console.WriteLine("-Om een berekening te maken, geef een bewerking in als 1+2; ");
+            Console.WriteLine("-Om te rekenen met variablen, geef een bewerking in als 1+m2; " );
+            Console.WriteLine();
+            Console.WriteLine("-Om de lokale variablen met hun waarden te tone, type 'locals' .");
+            Console.WriteLine("-Om een variable in te stellen, geef een bewerking in als 1+m2; ");
+            Console.WriteLine();
+            Console.WriteLine("-Voor een lijst van alle ondersteunde bewerkingen, typ 'listcalc' .");
+            Console.WriteLine("-Voor informatie van de schrijver weer te geven, typ 'author' ." );
+            Console.WriteLine("-Om de console leeg te maken, schrijf 'clear' .");
+            Console.WriteLine("-om de rekenmachine af te sluiten, type 'exit' .");
+            Console.WriteLine("- Om te zien wat het antwoord op alles is typ 'Awnser'");
+            Console.WriteLine();
+
+            string input = "";
+            double resultaat = 0;
+            double[] geheugen = new double[10]; // initialiseer een array voor geheugenlocaties
+            for (int i = 0; i < 10; i++) // stel de initiële waarden van de geheugenlocaties in op 0
+            {
+                geheugen[i] = 0;
+            }
+
+            while (input != "exit") //zolang de invoer niet exit is de loop blijven herhalen
+            {
+                Console.Write(">");
+                input = Console.ReadLine().Trim().ToUpper(); // zet de invoer om naar hoofdletters en verwijder voorloop-/achterloopspaties
+
+                if (input == "CLEAR")
+                {
+                    Console.Clear(); // wis de console
+                    Console.WriteLine(" W E L C O M E  T O  T H E  C O N S O L E  C A L C U L A T O R");
+                    Console.WriteLine("-Om een berekening te maken, geef een bewerking in als 1+2; ");
+                    Console.WriteLine("-Om te rekenen met variablen, geef een bewerking in als 1+m2; ");
+                    Console.WriteLine();
+                    Console.WriteLine("-Om de lokale variablen met hun waarden te tone, type 'locals' .");
+                    Console.WriteLine("-Om een variable in te stellen, geef een bewerking in als 1+m2; ");
+                    Console.WriteLine();
+                    Console.WriteLine("-Voor een lijst van alle ondersteunde bewerkingen, typ 'listcalc' .");
+                    Console.WriteLine("-Voor informatie van de schrijver weer te geven, typ 'author .");
+                    Console.WriteLine("-Om de console leeg te maken, schrijf 'clear' .");
+                    Console.WriteLine("-om de rekenmachine af te sluiten, type 'exit' .");
+                    Console.WriteLine("- Om te zien wat het antwoord op alles is typ 'Awnser'");
+                    Console.WriteLine();
+                }
+                else if(input == "AWNSER")
+                {
+                    Console.WriteLine("het antwoord is 42");
+                    Console.WriteLine("Niet overuigd bekijk dit: https://www.youtube.com/watch?v=04NHe9iO8f0 of https://www.youtube.com/watch?v=qvVPs2bevj0");
+                }
+                else if (input == "LISTCALC")
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("COMMAND     VOORBEELD     UITLEG");
+                    Console.WriteLine(" +              1+2        //Geeft de som van de getallen weer");
+                    Console.WriteLine(" -              1-2        //Geeft het verschil van de getallen weer");
+                    Console.WriteLine(" *              1*2        //Geeft het product van de getlallen weer");
+                    Console.WriteLine(" /              1/2        //Geeft het qoitient van de getallen weer");
+                    Console.WriteLine(" %              1%2        //Geeft de delingsrest van de getallen weer");
+                    Console.WriteLine("m1              m1=5       //Slaat de waarde die je ingaf onder de local op");
+                }
+
+                else if (input == "AUTHOR")
+                {
+
+                    Console.WriteLine(@"        ___________
+      |.---------.|
+      ||         ||
+      ||         ||
+      ||         ||
+      |'---------'|
+       `)__ ____('
+       [=== -- o ]--.
+     __'---------'__ \
+jgs [::::::::::: :::] )
+     `""""'""""""""""'""""""""`/T\
+                    \_/");
+Console.WriteLine("Deze rekenmachine werd gemaakt door @Lord Arne Goossen de almachtige 2023");
+
+                }
+
+                else if (input == "LOCALS")
+                {
+                    Console.WriteLine("> Geheugenlocaties:");
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Console.WriteLine($"   - m{i}: {geheugen[i]}");
+                    }
+                }
+
+                if (input.Contains("=")) // controleer of de invoer een geheugenopdracht is (bijv. m2 = 9)
+                {
+                    string[] delen = input.Split('='); // splits de invoer in twee delen: geheugenlocatie en waarde
+                    string geheugenLocatie= delen[0].Trim(); // verwijder voorloop-/achterloop spaties
+                    double waarde;
+                    if (double.TryParse(delen[1], out waarde)) // controleer of de waarde een geldig getal is
+                    {
+                        int index = int.Parse(geheugenLocatie[1].ToString()); // haal de index van de geheugenlocatie op (bijv. m2 => index = 2)
+                        geheugen[index] = waarde; // wijs de waarde toe aan de geheugenlocatie
+                        Console.WriteLine($"> Geheugenlocatie {geheugenLocatie} is ingesteld op {waarde}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("> Ongeldige invoer. Voer a.u.b. een geldig getal in.");
+                    }
+
+                }
+
+                else if (input.Contains("+"))
+                {
+                    string[] parts = input.Split('+'); // splits de invoer in twee delen: linker operand en rechter operand
+                    double leftOperand;
+                    double rightOperand;
+                    if (double.TryParse(parts[0], out leftOperand) && double.TryParse(parts[1], out rightOperand)) // controleert of beide operanden geldige getallen zijn
+                    {
+                        resultaat = leftOperand + rightOperand; // telt de operanden op
+                        Console.WriteLine($"> {leftOperand} + {rightOperand} = {resultaat}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("> Ongeldige invoer. Voer alstublieft twee geldige getallen in gescheiden door een plusteken (+).");
+                    }
+                }
+
+                else if (input.Contains("-"))
+                {
+                    string[] parts = input.Split('-'); // splits de invoer in twee delen: linker operand en rechter operand
+                    double leftOperand;
+                    double rightOperand;
+                    if (double.TryParse(parts[0], out leftOperand) && double.TryParse(parts[1], out rightOperand)) // controleert of beide operanden geldige getallen zijn
+                    {
+                        resultaat = leftOperand - rightOperand; // trekt de rechter operand af van de linker operand
+                        Console.WriteLine($"> {leftOperand} - {rightOperand} = {resultaat}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("> Ongeldige invoer. Voer alstublieft twee geldige getallen in gescheiden door een minteken (-).");
+                    }
+                }
+
+                else if (input.Contains("*"))
+                {
+                    string[] parts = input.Split('*'); // splits de invoer in twee delen: linker operand en rechter operand
+                    double leftOperand;
+                    double rightOperand;
+                    if (double.TryParse(parts[0], out leftOperand) && double.TryParse(parts[1], out rightOperand)) // controleert of beide operanden geldige getallen zijn
+                    {
+                        resultaat = leftOperand * rightOperand; // vermenigvuldigt de operanden
+                        Console.WriteLine($"> {leftOperand} * {rightOperand} = {resultaat}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("> Ongeldige invoer. Voer alstublieft twee geldige getallen in gescheiden door een sterretje (*).");
+                    }
+                }
+
+                else if (input.Contains("/"))
+                {
+                    string[] parts = input.Split('/'); // splits de invoer in twee delen: linker operand en rechter operand
+                    double leftOperand;
+                    double rightOperand;
+                    if (double.TryParse(parts[0], out leftOperand) && double.TryParse(parts[1], out rightOperand)) // controleert of beide operanden geldige getallen zijn
+                    {
+                        resultaat = leftOperand / rightOperand; // vermenigvuldigt de operanden
+                        Console.WriteLine($"> {leftOperand} / {rightOperand} = {resultaat}");
+                    }
+                    /*else if (rightOperand =0) 
+                    {
+                        Console.WriteLine("delen door 0 kan niet");
+                    } */
+                    else
+                    {
+                        Console.WriteLine("> Ongeldige invoer. Voer alstublieft twee geldige getallen in gescheiden door een deler (/).");
+                    }
+                }
+
+                else if (input.Contains("%")) // controleer of de invoer een modulus-berekening is (bijv. 10 % 3)
+                {
+                    string[] parts = input.Split('%'); // splits de invoer in twee delen: getal en modulus
+                    double num1, num2;
+                    if (double.TryParse(parts[0], out num1) && double.TryParse(parts[1], out num2)) // controleer of beide delen geldige getallen zijn
+                    {
+                        resultaat = num1 % num2; // bereken de modulus
+                        Console.WriteLine($"> Het resultaat van {num1} % {num2} is {resultaat}");
+                    }
+                    /*else if (rightOperand =0) 
+                   {
+                       Console.WriteLine("delen door 0 kan niet");
+                   } */
+                    else
+                    {
+                        Console.WriteLine("> Ongeldige invoer. Voer a.u.b. twee geldige getallen in, gescheiden door een '%'.");
+                    }
+                }
+                //alles werkt aleen nog aanpassen code zodanig ik ook gehuegenplaatsen kan toepassen, ook de namen van de variablen nog veranderen en iets speciaals bedenken om erin te steken. + mogelijkheid om bewerkingen samen in te voegen en mogelijkheid om locals aan te passen
+                if (input == "EXIT".Trim().ToUpper())
+                {
+                    Environment.Exit(0);
+                }
+            }
+        }
+     }
+}
